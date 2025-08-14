@@ -1,7 +1,10 @@
+
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import styles from "./Login.module.css";
+import AuthLayout from "../../components/AuthLayout/AuthLayout";
+import styles from "../../components/AuthLayout/AuthLayout.module.css";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -14,10 +17,7 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCredentials((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -44,70 +44,55 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <div className={styles.loginCard}>
-        <div className={styles.imageSide} />
-        
-        <div className={styles.formSide}>
-          <div className={styles.formContainer}>
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <h2 className={styles.title}>Login</h2>
-
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>
-              E-mail:
-            </label>
-            <input
-              placeholder="Informe seu e-mail"
-              type="text"
-              id="email"
-              name="email"
-              value={credentials.email}
-              onChange={handleChange}
-              className={styles.input}
-              disabled={isLoading}
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>
-              Senha:
-            </label>
-            <input
-              autoComplete="off"
-              type="password"
-              id="password"
-              name="password"
-              value={credentials.password}
-              onChange={handleChange}
-              className={styles.input}
-              disabled={isLoading}
-            />
-          </div>
-
-          {error && <p className={styles.error}>{error}</p>}
-
-          <button
-                type="submit"
-                className={`${styles.button} ${
-                  isLoading ? styles.buttonDisabled : ""
-                }`}
-                disabled={isLoading}
-              >
-                {isLoading ? "Carregando..." : "Entrar"}
-              </button>
-            </form>
-            <button
-              className={styles.buttonRegister}
-              onClick={() => navigate("/register")}
-            >
-              Criar conta
-            </button>
-          </div>
-        </div>
+    <AuthLayout title="Login" >
+      <div className={styles.inputGroup}>
+        <label htmlFor="email" className={styles.label}>E-mail:</label>
+        <input
+          placeholder="Informe seu e-mail"
+          type="text"
+          id="email"
+          name="email"
+          value={credentials.email}
+          onChange={handleChange}
+          className={styles.input}
+          disabled={isLoading}
+        />
       </div>
-    </div>
+
+      <div className={styles.inputGroup}>
+        <label htmlFor="password" className={styles.label}>Senha:</label>
+        <input
+          autoComplete="off"
+          type="password"
+          id="password"
+          name="password"
+          value={credentials.password}
+          onChange={handleChange}
+          className={styles.input}
+          disabled={isLoading}
+        />
+      </div>
+
+      {error && <p className={styles.error}>{error}</p>}
+
+      <button
+        type="submit"
+        className={`${styles.button} ${isLoading ? styles.buttonDisabled : ""}`}
+        disabled={isLoading}
+        onClick={handleSubmit}
+      >
+        {isLoading ? "Carregando..." : "Entrar"}
+      </button>
+      
+      <button
+        className={styles.buttonRegister}
+        onClick={() => navigate("/register")}
+      >
+        Criar conta
+      </button>
+    </AuthLayout>
   );
 };
 
 export default Login;
+
