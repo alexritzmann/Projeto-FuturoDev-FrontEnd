@@ -1,0 +1,189 @@
+.loginContainer {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Container principal para imagem e formulário */
+.loginCard {
+  display: flex;
+  width: 90%;
+  max-width: 1000px;
+  min-height: 600px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Lado da imagem */
+.imageSide {
+  flex: 1;
+  background-color: #c9e2c8;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Imagem como plano de fundo para desktop */
+.imageSide::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://i.pinimg.com/474x/44/bb/a3/44bba33c907c604a48683236d1f6b2f5.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Lado do formulário */
+.formSide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 30px;
+  background-color: white;
+  position: relative;
+  z-index: 2;
+}
+
+/* Container do formulário com sombra interna */
+.formContainer {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form {
+  width: 100%;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos que permanecem iguais */
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.input {
+  width: 93%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border 0.3s;
+}
+
+.input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.error {
+  color: #e74c3c;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.button {
+  width: 93%;
+  padding: 12px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #2980b9;
+}
+
+.buttonDisabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.buttonDisabled:hover {
+  background-color: #bdc3c7;
+}
+
+.buttonRegister {
+  margin-top: 15px;
+  text-align: center;
+  color: #3498db;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+}
+
+.buttonRegister:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para mobile */
+@media (max-width: 768px) {
+  .loginCard {
+    flex-direction: column;
+    min-height: auto;
+  }
+  
+  .imageSide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .imageSide::before {
+    opacity: 0.3;
+    filter: blur(2px);
+  }
+  
+  .formSide {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 30px 20px;
+    margin: 20px;
+    border-radius: 10px;
+    width: calc(100% - 80px);
+  }
+  
+  .form {
+    box-shadow: none;
+    background-color: transparent;
+    padding: 20px 15px;
+  }
+}
+
