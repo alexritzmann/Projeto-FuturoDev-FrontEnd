@@ -1,7 +1,5 @@
-
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
@@ -26,39 +24,40 @@ const Register = () => {
   };
 
   const formatCPF = (e) => {
-    let value = e.target.value.replace(/\D/g, '');
+    let value = e.target.value.replace(/\D/g, "");
     if (value.length > 11) value = value.substring(0, 11);
-    
-    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    
-    setFormData(prev => ({
+
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+    setFormData((prev) => ({
       ...prev,
-      cpf: value
+      cpf: value,
     }));
   };
 
   const validateCPF = (cpf) => {
-    cpf = cpf.replace(/\D/g, '');
+    cpf = cpf.replace(/\D/g, "");
     if (cpf.length !== 11) return false;
-    
+
     let sum = 0;
     for (let i = 0; i < 9; i++) {
       sum += parseInt(cpf.charAt(i)) * (10 - i);
     }
     let rest = sum % 11;
     let digit1 = rest < 2 ? 0 : 11 - rest;
-    
+
     sum = 0;
     for (let i = 0; i < 10; i++) {
       sum += parseInt(cpf.charAt(i)) * (11 - i);
     }
     rest = sum % 11;
     let digit2 = rest < 2 ? 0 : 11 - rest;
-    
-    return digit1 === parseInt(cpf.charAt(9)) && 
-           digit2 === parseInt(cpf.charAt(10));
+
+    return (
+      digit1 === parseInt(cpf.charAt(9)) && digit2 === parseInt(cpf.charAt(10))
+    );
   };
 
   const handleSubmit = (e) => {
@@ -66,31 +65,36 @@ const Register = () => {
     setError("");
 
     const requiredFields = [
-      'name', 'gender', 'cpf', 'birthdate', 'email', 'password'
+      "name",
+      "gender",
+      "cpf",
+      "birthdate",
+      "email",
+      "password",
     ];
-    
-    if (requiredFields.some(field => !formData[field])) {
+
+    if (requiredFields.some((field) => !formData[field])) {
       setError("Por favor, preencha todos os campos obrigatórios");
       return;
     }
-    
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       setError("E-mail inválido");
       return;
     }
-    
+
     if (!validateCPF(formData.cpf)) {
       setError("CPF inválido");
       return;
     }
-    
+
     const birthDate = new Date(formData.birthdate);
     const today = new Date();
     if (birthDate >= today) {
       setError("Data de nascimento inválida");
       return;
     }
-    
+
     if (formData.password.length < 6) {
       setError("A senha deve ter pelo menos 6 caracteres");
       return;
@@ -108,7 +112,9 @@ const Register = () => {
   return (
     <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
       <div className={styles.inputGroup}>
-        <label htmlFor="name" className={styles.label}>Nome Completo: *</label>
+        <label htmlFor="name" className={styles.label}>
+          Nome Completo: *
+        </label>
         <input
           placeholder="Informe seu nome completo"
           type="text"
@@ -122,7 +128,9 @@ const Register = () => {
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="gender" className={styles.label}>Sexo: *</label>
+        <label htmlFor="gender" className={styles.label}>
+          Sexo: *
+        </label>
         <select
           id="gender"
           name="gender"
@@ -140,7 +148,9 @@ const Register = () => {
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="cpf" className={styles.label}>CPF: *</label>
+        <label htmlFor="cpf" className={styles.label}>
+          CPF: *
+        </label>
         <input
           placeholder="000.000.000-00"
           type="text"
@@ -154,7 +164,9 @@ const Register = () => {
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="birthdate" className={styles.label}>Data de Nascimento: *</label>
+        <label htmlFor="birthdate" className={styles.label}>
+          Data de Nascimento: *
+        </label>
         <input
           type="date"
           id="birthdate"
@@ -163,12 +175,14 @@ const Register = () => {
           onChange={handleChange}
           className={styles.input}
           disabled={isLoading}
-          max={new Date().toISOString().split('T')[0]}
+          max={new Date().toISOString().split("T")[0]}
         />
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="email" className={styles.label}>E-mail: *</label>
+        <label htmlFor="email" className={styles.label}>
+          E-mail: *
+        </label>
         <input
           placeholder="Informe seu e-mail"
           type="email"
@@ -182,7 +196,9 @@ const Register = () => {
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="password" className={styles.label}>Senha: *</label>
+        <label htmlFor="password" className={styles.label}>
+          Senha: *
+        </label>
         <input
           autoComplete="off"
           type="password"
@@ -205,16 +221,14 @@ const Register = () => {
       >
         {isLoading ? "Carregando..." : "Cadastrar"}
       </button>
-      
-      <button
-        className={styles.buttonRegister}
-        onClick={() => navigate("/login")}
-      >
-        Já tem uma conta? Faça login
-      </button>
+
+      <div>
+        <Link to="/login" className={styles.buttonRegister}>
+          Já tem uma conta? Faça login
+        </Link>
+      </div>
     </AuthLayout>
   );
 };
 
 export default Register;
-

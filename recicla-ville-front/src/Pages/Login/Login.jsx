@@ -1,7 +1,5 @@
-
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import styles from "../../components/AuthLayout/AuthLayout.module.css";
@@ -13,7 +11,6 @@ const Login = () => {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +43,9 @@ const Login = () => {
   return (
     <AuthLayout title="Login" image="/src/assets/imgs/login2.png">
       <div className={styles.inputGroup}>
-        <label htmlFor="email" className={styles.label}>E-mail:</label>
+        <label htmlFor="email" className={styles.label}>
+          E-mail:
+        </label>
         <input
           placeholder="Informe seu e-mail"
           type="text"
@@ -60,7 +59,9 @@ const Login = () => {
       </div>
 
       <div className={styles.inputGroup}>
-        <label htmlFor="password" className={styles.label}>Senha:</label>
+        <label htmlFor="password" className={styles.label}>
+          Senha:
+        </label>
         <input
           autoComplete="off"
           type="password"
@@ -83,16 +84,14 @@ const Login = () => {
       >
         {isLoading ? "Carregando..." : "Entrar"}
       </button>
-      
-      <button
-        className={styles.buttonRegister}
-        onClick={() => navigate("/register")}
-      >
-        Criar conta
-      </button>
+
+      <div>
+        <Link to="/register" className={styles.buttonRegister}>
+          Criar conta
+        </Link>
+      </div>
     </AuthLayout>
   );
 };
 
 export default Login;
-
