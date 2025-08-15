@@ -106,7 +106,7 @@ const Register = () => {
   };
 
   return (
-    <AuthLayout title="Criar Conta" >
+    <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
       <div className={styles.inputGroup}>
         <label htmlFor="name" className={styles.label}>Nome Completo: *</label>
         <input

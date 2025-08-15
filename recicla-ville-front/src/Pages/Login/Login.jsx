@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <AuthLayout title="Login" >
+    <AuthLayout title="Login" image="/src/assets/imgs/login2.png">
       <div className={styles.inputGroup}>
         <label htmlFor="email" className={styles.label}>E-mail:</label>
         <input
