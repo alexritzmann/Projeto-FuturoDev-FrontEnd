@@ -1,5 +1,4 @@
-
-
+/* Estilos gerais */
 .header {
   background-color: white;
   padding: 20px;
@@ -7,8 +6,13 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  position: relative; /* Importante para o menu móvel */
+  position: relative;
   z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.header.hidden {
+  display: none;
 }
 
 .headerContainer {
@@ -42,18 +46,30 @@
   background-color: #2980b9;
 }
 
-/* Menu sanduíche - oculto em desktop */
+/* Botão do menu sanduíche fixo */
 .menuIcon {
-  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 2rem;
   color: #3498db;
   padding: 10px;
-  z-index: 101; /* Fica acima do menu móvel */
+  z-index: 1000;
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+
 }
 
+.menuIcon.closeIcon {
+  z-index: 1001;
+}
+
+/* Overlay para fundo escurecido */
 .overlay {
   position: fixed;
   top: 0;
@@ -64,14 +80,14 @@
   z-index: 98;
 }
 
-/* Menu móvel - oculto por padrão */
+/* Menu móvel - sobreposto */
 .mobileMenu {
   position: fixed;
   top: 0;
   right: 0;
   width: 70%;
   max-width: 300px;
-  height:max-content;
+  height: fit-content;
   background-color: white;
   padding: 80px 20px 20px;
   display: flex;
@@ -82,11 +98,6 @@
   animation: slideIn 0.3s forwards;
 }
 
-/* Esconde o menu desktop em mobile */
-.desktopMenu {
-  display: flex;
-}
-
 @keyframes slideIn {
   from { transform: translateX(100%); }
   to { transform: translateX(0); }
@@ -95,6 +106,7 @@
 .mobileMenu .menuButton {
   margin: 10px 0;
   text-align: center;
+  width: 93%;
 }
 
 /* Media query para telas menores */

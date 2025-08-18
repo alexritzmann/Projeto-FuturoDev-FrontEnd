@@ -16,7 +16,6 @@ function App2() {
   return (
     <>
       <Header />
-      <p>TESTE</p>
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/places" element={<Places />} />

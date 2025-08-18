@@ -1,3 +1,5 @@
+
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -12,12 +14,13 @@ const Header = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-      if (window.innerWidth > 768) setMenuOpen(false);
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile) setMenuOpen(false);
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const toggleMenu = () => {
@@ -29,38 +32,43 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <div className={styles.headerContainer}>
-        <div className={styles.displayLogo}>
-          <img className={styles.Logo} src="/src/assets/imgs/login2.png" alt="Logo" />
+    <>
+      {/* Header principal (visível apenas em desktop) */}
+      <header className={`${styles.header} ${isMobile ? styles.hidden : ''}`}>
+        <div className={styles.headerContainer}>
+          <div className={styles.displayLogo}>
+            <img className={styles.Logo} src="/src/assets/imgs/login2.png" alt="Logo" />
+          </div>
+          
+          <div className={styles.desktopMenu}>
+            <Link to="/dashboard" className={styles.menuButton}>
+              DashBoard
+            </Link>
+            <Link to="/places" className={styles.menuButton}>
+              Locais
+            </Link>
+          </div>
         </div>
         
-        {/* Menu para desktop */}
-        <div className={styles.desktopMenu}>
-          <Link to="/dashboard" className={styles.menuButton}>
-            DashBoard
-          </Link>
-          <Link to="/places" className={styles.menuButton}>
-            Locais
-          </Link>
+        <div className={styles.headerContainer}>
+          <div className={styles.desktopMenu}>
+            <Link to="/login" className={styles.menuButton}>
+              Sair
+            </Link>
+          </div>
         </div>
-      </div>
-      
-      <div className={styles.headerContainer}>
-        {/* Menu desktop - botão Sair */}
-        <div className={styles.desktopMenu}>
-          <Link to="/login" className={styles.menuButton}>
-            Sair
-          </Link>
-        </div>
-        
-        {/* Ícone do menu sanduíche (só aparece em mobile) */}
-        {isMobile && (
-          <button className={styles.menuIcon} onClick={toggleMenu} aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}>
-            {menuOpen ? <CloseIcon style={{ fontSize: '2rem' }} /> : <MenuIcon style={{ fontSize: '2rem' }} />}
-          </button>
-        )}
-      </div>
+      </header>
+
+      {/* Botão do menu sanduíche fixo (visível apenas em mobile) */}
+      {isMobile && (
+        <button 
+          className={`${styles.menuIcon} ${menuOpen ? styles.closeIcon : ''}`} 
+          onClick={toggleMenu}
+          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+        >
+          {menuOpen ? <CloseIcon style={{ fontSize: '2rem' }} /> : <MenuIcon style={{ fontSize: '2rem' }} />}
+        </button>
+      )}
 
       {/* Overlay e Menu móvel */}
       {menuOpen && isMobile && (
@@ -91,7 +99,7 @@ const Header = () => {
           </div>
         </>
       )}
-    </header>
+    </>
   );
 };
 
