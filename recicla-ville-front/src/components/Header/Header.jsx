@@ -1,3 +1,5 @@
+
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -31,7 +33,6 @@ const Header = () => {
 
   return (
     <>
-      {/* Header principal (visível apenas em desktop) */}
       <header className={`${styles.header} ${isMobile ? styles.hidden : ""}`}>
         <div className={styles.headerContainer}>
           <div className={styles.displayLogo}>
@@ -68,9 +69,7 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Botão do menu sanduíche fixo (visível apenas em mobile) */}
       {isMobile && (
-        
         <button
           className={`${styles.menuIcon} ${menuOpen ? styles.closeIcon : ""}`}
           onClick={toggleMenu}
@@ -84,18 +83,18 @@ const Header = () => {
         </button>
       )}
 
-      {/* Overlay e Menu móvel */}
       {menuOpen && isMobile && (
         <>
-        
           <div className={styles.overlay} onClick={toggleMenu}></div>
-          
+
           <div className={styles.mobileMenu}>
             <div className={styles.userInfo}>
-        {localStorage.getItem("usuario") && (
-          <span>Olá, {JSON.parse(localStorage.getItem("usuario")).nome}</span>
-        )}
-      </div>
+              {localStorage.getItem("usuario") && (
+                <span>
+                  Olá, {JSON.parse(localStorage.getItem("usuario")).nome}
+                </span>
+              )}
+            </div>
             <Link
               to="/dashboard"
               className={styles.menuButton}
