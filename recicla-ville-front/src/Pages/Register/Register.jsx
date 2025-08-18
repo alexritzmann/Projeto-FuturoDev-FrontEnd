@@ -1,3 +1,5 @@
+
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -60,7 +62,7 @@ const Register = () => {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -101,13 +103,37 @@ const Register = () => {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      console.log("Dados de cadastro:", formData);
-      alert("Cadastro realizado com sucesso! (Simulação)");
+    try {
+      const response = await fetch("http://localhost:3000/usuarios", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nome: formData.name,
+          sexo: formData.gender,
+          cpf: formData.cpf.replace(/\D/g, ""), // Remove formatação
+          nascimento: formData.birthdate,
+          email: formData.email,
+          senha: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.erro || "Erro ao cadastrar usuário");
+      }
+
+      // Cadastro bem-sucedido, redireciona para login
       navigate("/login");
-    }, 1500);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
 
   return (
     <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
