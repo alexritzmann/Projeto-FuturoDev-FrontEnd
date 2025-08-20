@@ -213,3 +213,7 @@
   margin: 0 0 8px 0;
 }
 
+.inputError {
+  border-color: #e74c3c !important;
+}
+
