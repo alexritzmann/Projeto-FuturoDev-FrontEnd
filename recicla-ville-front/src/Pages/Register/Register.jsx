@@ -188,6 +188,7 @@ const Register = () => {
 
   return (
     <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
+      <p className={styles.welcomeMessage}>Junte-se à ReciclaVille</p>
       <ToastContainer />
       <div className={styles.inputGroup}>
         <label htmlFor="name" className={styles.label}>

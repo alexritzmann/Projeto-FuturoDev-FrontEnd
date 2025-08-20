@@ -40,12 +40,15 @@ const Header = () => {
     <>
       <header className={`${styles.header} ${isMobile ? styles.hidden : ""}`}>
         <div className={styles.headerContainer}>
-          <div className={styles.displayLogo}>
-            <img
-              className={styles.Logo}
-              src="/src/assets/imgs/login2.png"
-              alt="Logo"
-            />
+          <div className={styles.logoContainer}>
+            <div className={styles.displayLogo}>
+              <img
+                className={styles.Logo}
+                src="/src/assets/imgs/login2.png"
+                alt="Logo"
+              />
+            </div>
+            <h1 className={styles.projectName}>ReciclaVille</h1>
           </div>
 
           <div className={styles.desktopMenu}>
@@ -99,6 +102,15 @@ const Header = () => {
           <div className={styles.overlay} onClick={toggleMenu}></div>
 
           <div className={styles.mobileMenu}>
+            <div className={styles.mobileLogoContainer}>
+              <img
+                className={styles.mobileLogo}
+                src="/src/assets/imgs/login2.png"
+                alt="Logo"
+              />
+              <h1 className={styles.mobileProjectName}>ReciclaVille</h1>
+            </div>
+            
             <div className={styles.userInfo}>
               {localStorage.getItem("usuario") && (
                 <span>
@@ -129,6 +141,7 @@ const Header = () => {
     </>
   );
 };
+
 
 export default Header;
 
