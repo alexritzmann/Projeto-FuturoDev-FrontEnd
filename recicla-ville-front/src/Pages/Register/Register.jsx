@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
@@ -103,6 +103,16 @@ const Register = () => {
       return;
     }
 
+    const ageDiffMs = today - birthDate;
+    const ageDate = new Date(ageDiffMs); // milissegundos desde 1970
+    const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+    if (age < 12) {
+      setError("É necessário ter pelo menos 12 anos para se cadastrar");
+      setIsSubmitted(false);
+      return;
+    }
+
     if (formData.password.length < 6) {
       setError("A senha deve ter pelo menos 6 caracteres");
       setIsSubmitted(false);
@@ -133,27 +143,28 @@ const Register = () => {
       }
 
       // Cadastro bem-sucedido - mostra toast e redireciona imediatamente
-      toast.success('Cadastro realizado com sucesso! Redirecionando para login...', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      toast.success(
+        "Cadastro realizado com sucesso! Redirecionando para login...",
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
 
       // Redireciona após um pequeno delay para o toast aparecer
       setTimeout(() => {
         navigate("/login");
       }, 1000);
-
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
       setIsSubmitted(false);
     }
   };
-
 
   return (
     <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
@@ -214,6 +225,7 @@ const Register = () => {
         <label htmlFor="birthdate" className={styles.label}>
           Data de Nascimento: *
         </label>
+        <p className={styles.ageInfo}>É necessário ter pelo menos 12 anos para se cadastrar</p>
         <input
           type="date"
           id="birthdate"
@@ -262,7 +274,9 @@ const Register = () => {
 
       <button
         type="submit"
-        className={`${styles.button} ${(isLoading || isSubmitted) ? styles.buttonDisabled : ""}`}
+        className={`${styles.button} ${
+          isLoading || isSubmitted ? styles.buttonDisabled : ""
+        }`}
         disabled={isLoading || isSubmitted}
         onClick={handleSubmit}
       >
@@ -279,4 +293,3 @@ const Register = () => {
 };
 
 export default Register;
-

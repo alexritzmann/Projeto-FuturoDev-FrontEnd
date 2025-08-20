@@ -110,6 +110,11 @@
   width: 93%;
 }
 
+.activeButton {
+  background-color: #1a5276; /* Cor mais escura para o botão ativo */
+  border: 2px solid #fff; /* Borda para destacar ainda mais */
+}
+
 /* Media query para telas menores */
 @media (max-width: 768px) {
   .menuIcon {
@@ -118,6 +123,12 @@
   
   .desktopMenu {
     display: none;
+  }
+
+   /* Estilo para botão ativo no menu mobile */
+  .mobileMenu .activeButton {
+    background-color: #1a5276;
+    border: 2px solid #fff;
   }
 }
 
