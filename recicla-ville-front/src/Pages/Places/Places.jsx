@@ -61,7 +61,6 @@ const Places = () => {
         throw new Error("Erro ao excluir ponto de coleta");
       }
 
-      // Atualizar lista após exclusão
       setColetas(coletas.filter((coleta) => coleta.id !== id));
     } catch (err) {
       setError(err.message);

@@ -7,6 +7,7 @@ import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
 import styles from "../../components/AuthLayout/AuthLayout.module.css";
 
+
 const Login = () => {
   const [credentials, setCredentials] = useState({
     email: "",
