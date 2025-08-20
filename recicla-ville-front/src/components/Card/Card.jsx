@@ -1,4 +1,6 @@
 
+import PlaceIcon from '@mui/icons-material/Place';
+import RecyclingIcon from '@mui/icons-material/Recycling';
 
 import styles from "../../Pages/Places/Places.module.css";
 
@@ -10,10 +12,18 @@ const Card = ({ coleta, onDelete }) => {
     <div className={styles.card}>
       <div className={styles.cardContent}>
         <h3 className={styles.cardTitle}>{coleta.nome}</h3>
-        <p className={styles.cardAddress}>{enderecoFormatado}</p>
-        <p className={styles.cardMaterials}>
-          <strong>Materiais:</strong> {coleta.residuos.join(', ')}
-        </p>
+        
+        <div className={styles.cardInfoRow}>
+          <PlaceIcon className={styles.icon} />
+          <p className={styles.cardAddress}>{enderecoFormatado}</p>
+        </div>
+        
+        <div className={styles.cardInfoRow}>
+          <RecyclingIcon className={styles.icon} />
+          <p className={styles.cardMaterials}>
+            <strong>Materiais:</strong> {coleta.residuos.join(', ')}
+          </p>
+        </div>
       </div>
       <div className={styles.cardActions}>
         <button 
@@ -29,4 +39,5 @@ const Card = ({ coleta, onDelete }) => {
 };
 
 export default Card;
+
 

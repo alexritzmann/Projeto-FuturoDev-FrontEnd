@@ -1,7 +1,7 @@
-
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
@@ -15,15 +15,29 @@ const Register = () => {
     birthdate: "",
     email: "",
     password: "",
+    confirmPassword: ""
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [passwordMatch, setPasswordMatch] = useState(true);
+
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const { name, value } = e.target;
+  setFormData((prev) => {
+    const newData = { ...prev, [name]: value };
+    
+    // Verifica se as senhas coincidem em tempo real
+    if (name === "password" || name === "confirmPassword") {
+      setPasswordMatch(newData.password === newData.confirmPassword);
+    }
+    
+    return newData;
+  });
+};
+
 
   const formatCPF = (e) => {
     let value = e.target.value.replace(/\D/g, "");
@@ -65,6 +79,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsSubmitted(true);
 
     const requiredFields = [
       "name",
@@ -73,20 +88,30 @@ const Register = () => {
       "birthdate",
       "email",
       "password",
+      "confirmPassword"
     ];
 
     if (requiredFields.some((field) => !formData[field])) {
       setError("Por favor, preencha todos os campos obrigatórios");
+      setIsSubmitted(false);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("As senhas não coincidem");
+      setIsSubmitted(false);
       return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       setError("E-mail inválido");
+      setIsSubmitted(false);
       return;
     }
 
     if (!validateCPF(formData.cpf)) {
       setError("CPF inválido");
+      setIsSubmitted(false);
       return;
     }
 
@@ -94,11 +119,23 @@ const Register = () => {
     const today = new Date();
     if (birthDate >= today) {
       setError("Data de nascimento inválida");
+      setIsSubmitted(false);
+      return;
+    }
+
+    const ageDiffMs = today - birthDate;
+    const ageDate = new Date(ageDiffMs); // milissegundos desde 1970
+    const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+    if (age < 12) {
+      setError("É necessário ter pelo menos 12 anos para se cadastrar");
+      setIsSubmitted(false);
       return;
     }
 
     if (formData.password.length < 6) {
       setError("A senha deve ter pelo menos 6 caracteres");
+      setIsSubmitted(false);
       return;
     }
 
@@ -112,7 +149,7 @@ const Register = () => {
         body: JSON.stringify({
           nome: formData.name,
           sexo: formData.gender,
-          cpf: formData.cpf.replace(/\D/g, ""), // Remove formatação
+          cpf: formData.cpf.replace(/\D/g, ""), 
           nascimento: formData.birthdate,
           email: formData.email,
           senha: formData.password,
@@ -125,18 +162,34 @@ const Register = () => {
         throw new Error(data.erro || "Erro ao cadastrar usuário");
       }
 
-      // Cadastro bem-sucedido, redireciona para login
-      navigate("/login");
+      // Cadastro bem-sucedido - mostra toast e redireciona imediatamente
+      toast.success(
+        "Cadastro realizado com sucesso! Redirecionando para login...",
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
+
+      // Redireciona após um pequeno delay para o toast aparecer
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
     } catch (err) {
       setError(err.message);
-    } finally {
       setIsLoading(false);
+      setIsSubmitted(false);
     }
   };
 
-
   return (
     <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
+      <p className={styles.welcomeMessage}>Junte-se à ReciclaVille</p>
+      <ToastContainer />
       <div className={styles.inputGroup}>
         <label htmlFor="name" className={styles.label}>
           Nome Completo: *
@@ -149,7 +202,7 @@ const Register = () => {
           value={formData.name}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         />
       </div>
 
@@ -163,7 +216,7 @@ const Register = () => {
           value={formData.gender}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         >
           <option value="">Selecione</option>
           <option value="M">Masculino</option>
@@ -185,7 +238,7 @@ const Register = () => {
           value={formData.cpf}
           onChange={formatCPF}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         />
       </div>
 
@@ -193,6 +246,7 @@ const Register = () => {
         <label htmlFor="birthdate" className={styles.label}>
           Data de Nascimento: *
         </label>
+        <p className={styles.ageInfo}>É necessário ter pelo menos 12 anos para se cadastrar</p>
         <input
           type="date"
           id="birthdate"
@@ -200,7 +254,7 @@ const Register = () => {
           value={formData.birthdate}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
           max={new Date().toISOString().split("T")[0]}
         />
       </div>
@@ -217,7 +271,7 @@ const Register = () => {
           value={formData.email}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         />
       </div>
 
@@ -233,7 +287,24 @@ const Register = () => {
           value={formData.password}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
+        />
+      </div>
+
+      {/* Novo campo de confirmação de senha */}
+      <div className={styles.inputGroup}>
+        <label htmlFor="confirmPassword" className={styles.label}>
+          Confirmar Senha: *
+        </label>
+        <input
+          autoComplete="off"
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          className={`${styles.input} ${!passwordMatch && formData.confirmPassword ? styles.inputError : ''}`}
+          disabled={isLoading || isSubmitted}
         />
       </div>
 
@@ -241,8 +312,8 @@ const Register = () => {
 
       <button
         type="submit"
-        className={`${styles.button} ${isLoading ? styles.buttonDisabled : ""}`}
-        disabled={isLoading}
+        className={`${styles.button} ${(isLoading || isSubmitted) ? styles.buttonDisabled : ""}`}
+        disabled={isLoading || isSubmitted}
         onClick={handleSubmit}
       >
         {isLoading ? "Carregando..." : "Cadastrar"}
@@ -258,3 +329,4 @@ const Register = () => {
 };
 
 export default Register;
+
