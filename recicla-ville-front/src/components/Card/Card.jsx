@@ -4,6 +4,7 @@ import RecyclingIcon from '@mui/icons-material/Recycling';
 
 import styles from "../../Pages/Places/Places.module.css";
 
+
 const Card = ({ coleta, onDelete }) => {
   const endereco = coleta.endereco;
   const enderecoFormatado = `${endereco.logradouro}, ${endereco.numero || 'S/N'} - ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}`;

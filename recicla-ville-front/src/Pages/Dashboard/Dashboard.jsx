@@ -1,3 +1,5 @@
+
+
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { CircularProgress } from "@mui/material";
@@ -8,7 +10,7 @@ import CardUF from "../../components/CardUF/CardUF";
 import "leaflet/dist/leaflet.css";
 import styles from "./Dashboard.module.css";
 
-// Corrigir ícones padrão do Leaflet (problema comum com Webpack)
+// remove default icon
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -18,6 +20,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
+
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -122,3 +125,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

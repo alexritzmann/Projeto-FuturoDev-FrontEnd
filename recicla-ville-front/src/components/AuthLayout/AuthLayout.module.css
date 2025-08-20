@@ -9,7 +9,6 @@
   position: relative;
 }
 
-/* Container principal para imagem e formulário */
 .loginCard {
   display: flex;
   width: 90%;
@@ -23,32 +22,18 @@
   background-color: white;
 }
 
-/* Lado da imagem */
 .imageSide {
   flex: 1;
   background-color: white;
-  position:relative;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   max-width: 450px;
   max-height: 600px;
-  border-radius: 10px ;
+  border-radius: 10px;
 }
 
-
-.imageSide::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center;
-}
-
-/* Lado do formulário */
 .formSide {
   flex: 1;
   display: flex;
@@ -61,7 +46,6 @@
   z-index: 2;
 }
 
-/* Container do formulário com sombra interna */
 .formContainer {
   width: 100%;
   max-width: 400px;
@@ -75,7 +59,6 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* Estilos que permanecem iguais */
 .title {
   text-align: center;
   color: #333;
@@ -108,6 +91,21 @@
   outline: none;
 }
 
+.inputError {
+  border-color: #e74c3c !important;
+}
+
+.input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.ageInfo {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
 .error {
   color: #e74c3c;
   margin-bottom: 15px;
@@ -131,12 +129,13 @@
 }
 
 .buttonDisabled {
-  background-color: #bdc3c7;
+  background-color: #cccccc;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .buttonDisabled:hover {
-  background-color: #bdc3c7;
+  background-color: #cccccc;
 }
 
 .buttonRegister {
@@ -157,7 +156,15 @@
   text-decoration: underline;
 }
 
-/* Estilos para mobile */
+.welcomeMessage {
+  text-align: center;
+  color: #2e7d32;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* responsivity */
 @media (max-width: 768px) {
   .loginCard {
     flex-direction: column;
@@ -192,35 +199,3 @@
   }
 }
 
-.buttonDisabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.buttonDisabled:hover {
-  background-color: #cccccc;
-}
-
-.input:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
-
-.ageInfo {
-  font-size: 0.8rem;
-  color: #666;
-  margin: 0 0 8px 0;
-}
-
-.inputError {
-  border-color: #e74c3c !important;
-}
-
-.welcomeMessage {
-  text-align: center;
-  color: #2e7d32; /* Verde que combina com o tema de reciclagem */
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  font-weight: 500;
-}

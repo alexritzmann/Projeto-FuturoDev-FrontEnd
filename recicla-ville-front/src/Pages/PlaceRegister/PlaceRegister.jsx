@@ -1,10 +1,10 @@
 
 
 import { useState, useEffect } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 import styles from "./PlaceRegister.module.css";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 
 const PlaceRegister = () => {
@@ -18,22 +18,20 @@ const PlaceRegister = () => {
       complemento: "",
       bairro: "",
       localidade: "",
-      uf: ""
+      uf: "",
     },
     coordenadas: {
       latitude: 0,
-      longitude: 0
+      longitude: 0,
     },
-    residuos: []
+    residuos: [],
   });
 
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Tipos de resíduos disponíveis
   const tiposResiduos = ["Vidro", "Metal", "Papel", "Plástico", "Orgânico"];
 
-  // Busca CEP na API
   const buscarCep = async () => {
     if (!formData.endereco.cep || formData.endereco.cep.length < 8) {
       toast.error("CEP inválido");
@@ -42,29 +40,30 @@ const PlaceRegister = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/cep/${formData.endereco.cep}`);
+      const response = await fetch(
+        `http://localhost:3000/cep/${formData.endereco.cep}`
+      );
       const data = await response.json();
-      
+
       if (data.erro) {
         toast.error("CEP não encontrado");
         return;
       }
 
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         endereco: {
           ...prev.endereco,
           logradouro: data.logradouro || "",
           bairro: data.bairro || "",
           localidade: data.localidade || "",
-          uf: data.uf || ""
+          uf: data.uf || "",
         },
         coordenadas: {
           latitude: data.coordenada?.latitude || 0,
-          longitude: data.coordenada?.longitude || 0
-        }
+          longitude: data.coordenada?.longitude || 0,
+        },
       }));
-      
     } catch (err) {
       toast.error("Erro ao buscar CEP");
       console.error(err);
@@ -73,70 +72,65 @@ const PlaceRegister = () => {
     }
   };
 
-  // Manipula mudanças nos campos
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name.includes("endereco.")) {
       const field = name.split(".")[1];
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         endereco: {
           ...prev.endereco,
-          [field]: value
-        }
+          [field]: value,
+        },
       }));
       return;
     }
-    
-    setFormData(prev => ({
+
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  // Manipula seleção de resíduos
   const handleResiduosChange = (tipo) => {
-    setFormData(prev => {
+    setFormData((prev) => {
       const newResiduos = prev.residuos.includes(tipo)
-        ? prev.residuos.filter(r => r !== tipo)
+        ? prev.residuos.filter((r) => r !== tipo)
         : [...prev.residuos, tipo];
-      
+
       return {
         ...prev,
-        residuos: newResiduos
+        residuos: newResiduos,
       };
     });
   };
 
-  // Envia formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
-      // Obtém usuarioid do localStorage
       const usuarioId = localStorage.getItem("usuarioId");
-      
+
       if (!usuarioId) {
         toast.error("Usuário não autenticado");
         setLoading(false);
         return;
       }
 
-      // Validações básicas
       if (!formData.nome) {
         toast.error("Nome do local é obrigatório");
         setLoading(false);
         return;
       }
-      
+
       if (!formData.endereco.cep) {
         toast.error("CEP é obrigatório");
         setLoading(false);
         return;
       }
-      
+
       if (formData.residuos.length === 0) {
         toast.error("Selecione pelo menos um tipo de resíduo");
         setLoading(false);
@@ -147,9 +141,9 @@ const PlaceRegister = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "usuarioid": usuarioId
+          usuarioid: usuarioId,
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -159,21 +153,18 @@ const PlaceRegister = () => {
         return;
       }
 
-      // Sucesso no cadastro
       setIsSubmitted(true);
-      toast.success('Local cadastrado com sucesso!', {
+      toast.success("Local cadastrado com sucesso!", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        draggable: true
+        draggable: true,
       });
 
-      // Rola para o topo da página
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
 
-      // Limpa o formulário após sucesso
       setFormData({
         nome: "",
         descricao: "",
@@ -184,15 +175,14 @@ const PlaceRegister = () => {
           complemento: "",
           bairro: "",
           localidade: "",
-          uf: ""
+          uf: "",
         },
         coordenadas: {
           latitude: 0,
-          longitude: 0
+          longitude: 0,
         },
-        residuos: []
+        residuos: [],
       });
-      
     } catch (err) {
       toast.error("Erro na conexão com o servidor");
       console.error(err);
@@ -201,7 +191,6 @@ const PlaceRegister = () => {
     }
   };
 
-  // Efeito para rolar para o topo quando o componente é montado
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -209,9 +198,9 @@ const PlaceRegister = () => {
   return (
     <div className={styles.container}>
       <ToastContainer />
-      
+
       <h1 className={styles.title}>Cadastro de Local de Coleta</h1>
-      
+
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="nome">Nome do Local*</label>
@@ -225,7 +214,7 @@ const PlaceRegister = () => {
             disabled={isSubmitted}
           />
         </div>
-        
+
         <div className={styles.formGroup}>
           <label htmlFor="descricao">Descrição</label>
           <textarea
@@ -237,10 +226,10 @@ const PlaceRegister = () => {
             disabled={isSubmitted}
           />
         </div>
-        
+
         <div className={styles.addressSection}>
           <h2>Endereço</h2>
-          
+
           <div className={styles.cepGroup}>
             <div className={styles.formGroup}>
               <label htmlFor="cep">CEP*</label>
@@ -256,9 +245,9 @@ const PlaceRegister = () => {
                 disabled={isSubmitted}
               />
             </div>
-            
-            <button 
-              type="button" 
+
+            <button
+              type="button"
               onClick={buscarCep}
               className={styles.cepButton}
               disabled={loading || isSubmitted}
@@ -266,7 +255,7 @@ const PlaceRegister = () => {
               {loading ? "Buscando..." : "Buscar CEP"}
             </button>
           </div>
-          
+
           <div className={styles.formGroup}>
             <label htmlFor="logradouro">Logradouro</label>
             <input
@@ -279,7 +268,7 @@ const PlaceRegister = () => {
               disabled={isSubmitted}
             />
           </div>
-          
+
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
               <label htmlFor="numero">Número</label>
@@ -292,7 +281,7 @@ const PlaceRegister = () => {
                 disabled={isSubmitted}
               />
             </div>
-            
+
             <div className={styles.formGroup}>
               <label htmlFor="complemento">Complemento</label>
               <input
@@ -305,7 +294,7 @@ const PlaceRegister = () => {
               />
             </div>
           </div>
-          
+
           <div className={styles.formGroup}>
             <label htmlFor="bairro">Bairro</label>
             <input
@@ -318,7 +307,7 @@ const PlaceRegister = () => {
               disabled={isSubmitted}
             />
           </div>
-          
+
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
               <label htmlFor="localidade">Cidade</label>
@@ -332,7 +321,7 @@ const PlaceRegister = () => {
                 disabled={isSubmitted}
               />
             </div>
-            
+
             <div className={styles.formGroup}>
               <label htmlFor="uf">Estado</label>
               <input
@@ -347,21 +336,17 @@ const PlaceRegister = () => {
               />
             </div>
           </div>
-          
+
           <div className={styles.coordinates}>
-            <span>
-              Latitude: {formData.coordenadas.latitude.toFixed(6)} 
-            </span>
-            <span>
-              Longitude: {formData.coordenadas.longitude.toFixed(6)}
-            </span>
+            <span>Latitude: {formData.coordenadas.latitude.toFixed(6)}</span>
+            <span>Longitude: {formData.coordenadas.longitude.toFixed(6)}</span>
           </div>
         </div>
-        
+
         <div className={styles.wasteSection}>
           <h2>Tipos de Resíduos Aceitos*</h2>
           <div className={styles.wasteOptions}>
-            {tiposResiduos.map(tipo => (
+            {tiposResiduos.map((tipo) => (
               <label key={tipo} className={styles.wasteOption}>
                 <input
                   type="checkbox"
@@ -374,10 +359,10 @@ const PlaceRegister = () => {
             ))}
           </div>
         </div>
-        
+
         <div className={styles.formActions}>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className={styles.submitButton}
             disabled={loading || isSubmitted}
           >
@@ -390,4 +375,3 @@ const PlaceRegister = () => {
 };
 
 export default PlaceRegister;
-
