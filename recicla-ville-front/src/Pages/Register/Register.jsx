@@ -1,7 +1,7 @@
-
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
@@ -18,6 +18,7 @@ const Register = () => {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -65,6 +66,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsSubmitted(true);
 
     const requiredFields = [
       "name",
@@ -77,16 +79,19 @@ const Register = () => {
 
     if (requiredFields.some((field) => !formData[field])) {
       setError("Por favor, preencha todos os campos obrigatórios");
+      setIsSubmitted(false);
       return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       setError("E-mail inválido");
+      setIsSubmitted(false);
       return;
     }
 
     if (!validateCPF(formData.cpf)) {
       setError("CPF inválido");
+      setIsSubmitted(false);
       return;
     }
 
@@ -94,11 +99,13 @@ const Register = () => {
     const today = new Date();
     if (birthDate >= today) {
       setError("Data de nascimento inválida");
+      setIsSubmitted(false);
       return;
     }
 
     if (formData.password.length < 6) {
       setError("A senha deve ter pelo menos 6 caracteres");
+      setIsSubmitted(false);
       return;
     }
 
@@ -125,18 +132,32 @@ const Register = () => {
         throw new Error(data.erro || "Erro ao cadastrar usuário");
       }
 
-      // Cadastro bem-sucedido, redireciona para login
-      navigate("/login");
+      // Cadastro bem-sucedido - mostra toast e redireciona imediatamente
+      toast.success('Cadastro realizado com sucesso! Redirecionando para login...', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      });
+
+      // Redireciona após um pequeno delay para o toast aparecer
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+
     } catch (err) {
       setError(err.message);
-    } finally {
       setIsLoading(false);
+      setIsSubmitted(false);
     }
   };
 
 
   return (
     <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
+      <ToastContainer />
       <div className={styles.inputGroup}>
         <label htmlFor="name" className={styles.label}>
           Nome Completo: *
@@ -149,7 +170,7 @@ const Register = () => {
           value={formData.name}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         />
       </div>
 
@@ -163,7 +184,7 @@ const Register = () => {
           value={formData.gender}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         >
           <option value="">Selecione</option>
           <option value="M">Masculino</option>
@@ -185,7 +206,7 @@ const Register = () => {
           value={formData.cpf}
           onChange={formatCPF}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         />
       </div>
 
@@ -200,7 +221,7 @@ const Register = () => {
           value={formData.birthdate}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
           max={new Date().toISOString().split("T")[0]}
         />
       </div>
@@ -217,7 +238,7 @@ const Register = () => {
           value={formData.email}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         />
       </div>
 
@@ -233,7 +254,7 @@ const Register = () => {
           value={formData.password}
           onChange={handleChange}
           className={styles.input}
-          disabled={isLoading}
+          disabled={isLoading || isSubmitted}
         />
       </div>
 
@@ -241,8 +262,8 @@ const Register = () => {
 
       <button
         type="submit"
-        className={`${styles.button} ${isLoading ? styles.buttonDisabled : ""}`}
-        disabled={isLoading}
+        className={`${styles.button} ${(isLoading || isSubmitted) ? styles.buttonDisabled : ""}`}
+        disabled={isLoading || isSubmitted}
         onClick={handleSubmit}
       >
         {isLoading ? "Carregando..." : "Cadastrar"}
@@ -258,3 +279,4 @@ const Register = () => {
 };
 
 export default Register;
+
