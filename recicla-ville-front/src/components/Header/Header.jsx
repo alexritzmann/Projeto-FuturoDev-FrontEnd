@@ -1,6 +1,6 @@
 
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
@@ -11,6 +11,7 @@ import styles from "./Header.module.css";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const location = useLocation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,6 +32,10 @@ const Header = () => {
     setMenuOpen(false);
   };
 
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   return (
     <>
       <header className={`${styles.header} ${isMobile ? styles.hidden : ""}`}>
@@ -44,10 +49,16 @@ const Header = () => {
           </div>
 
           <div className={styles.desktopMenu}>
-            <Link to="/dashboard" className={styles.menuButton}>
+            <Link 
+              to="/dashboard" 
+              className={`${styles.menuButton} ${isActive('/dashboard') ? styles.activeButton : ''}`}
+            >
               DashBoard
             </Link>
-            <Link to="/places" className={styles.menuButton}>
+            <Link 
+              to="/places" 
+              className={`${styles.menuButton} ${isActive('/places') ? styles.activeButton : ''}`}
+            >
               Locais
             </Link>
           </div>
@@ -97,14 +108,14 @@ const Header = () => {
             </div>
             <Link
               to="/dashboard"
-              className={styles.menuButton}
+              className={`${styles.menuButton} ${isActive('/dashboard') ? styles.activeButton : ''}`}
               onClick={closeMenu}
             >
               DashBoard
             </Link>
             <Link
               to="/places"
-              className={styles.menuButton}
+              className={`${styles.menuButton} ${isActive('/places') ? styles.activeButton : ''}`}
               onClick={closeMenu}
             >
               Locais
@@ -120,3 +131,4 @@ const Header = () => {
 };
 
 export default Header;
+
