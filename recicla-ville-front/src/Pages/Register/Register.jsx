@@ -15,16 +15,29 @@ const Register = () => {
     birthdate: "",
     email: "",
     password: "",
+    confirmPassword: ""
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [passwordMatch, setPasswordMatch] = useState(true);
+
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const { name, value } = e.target;
+  setFormData((prev) => {
+    const newData = { ...prev, [name]: value };
+    
+    // Verifica se as senhas coincidem em tempo real
+    if (name === "password" || name === "confirmPassword") {
+      setPasswordMatch(newData.password === newData.confirmPassword);
+    }
+    
+    return newData;
+  });
+};
+
 
   const formatCPF = (e) => {
     let value = e.target.value.replace(/\D/g, "");
@@ -75,10 +88,17 @@ const Register = () => {
       "birthdate",
       "email",
       "password",
+      "confirmPassword"
     ];
 
     if (requiredFields.some((field) => !formData[field])) {
       setError("Por favor, preencha todos os campos obrigatórios");
+      setIsSubmitted(false);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("As senhas não coincidem");
       setIsSubmitted(false);
       return;
     }
@@ -129,7 +149,7 @@ const Register = () => {
         body: JSON.stringify({
           nome: formData.name,
           sexo: formData.gender,
-          cpf: formData.cpf.replace(/\D/g, ""), // Remove formatação
+          cpf: formData.cpf.replace(/\D/g, ""), 
           nascimento: formData.birthdate,
           email: formData.email,
           senha: formData.password,
@@ -168,6 +188,7 @@ const Register = () => {
 
   return (
     <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
+      <p className={styles.welcomeMessage}>Junte-se à ReciclaVille</p>
       <ToastContainer />
       <div className={styles.inputGroup}>
         <label htmlFor="name" className={styles.label}>
@@ -270,13 +291,28 @@ const Register = () => {
         />
       </div>
 
+      {/* Novo campo de confirmação de senha */}
+      <div className={styles.inputGroup}>
+        <label htmlFor="confirmPassword" className={styles.label}>
+          Confirmar Senha: *
+        </label>
+        <input
+          autoComplete="off"
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          className={`${styles.input} ${!passwordMatch && formData.confirmPassword ? styles.inputError : ''}`}
+          disabled={isLoading || isSubmitted}
+        />
+      </div>
+
       {error && <p className={styles.error}>{error}</p>}
 
       <button
         type="submit"
-        className={`${styles.button} ${
-          isLoading || isSubmitted ? styles.buttonDisabled : ""
-        }`}
+        className={`${styles.button} ${(isLoading || isSubmitted) ? styles.buttonDisabled : ""}`}
         disabled={isLoading || isSubmitted}
         onClick={handleSubmit}
       >
@@ -293,3 +329,4 @@ const Register = () => {
 };
 
 export default Register;
+

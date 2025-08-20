@@ -213,3 +213,14 @@
   margin: 0 0 8px 0;
 }
 
+.inputError {
+  border-color: #e74c3c !important;
+}
+
+.welcomeMessage {
+  text-align: center;
+  color: #2e7d32; /* Verde que combina com o tema de reciclagem */
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-weight: 500;
+}

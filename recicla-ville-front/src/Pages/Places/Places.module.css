@@ -20,6 +20,7 @@
 }
 
 .newButton {
+  margin-top: 5px;
   padding: 0.75rem 1.5rem;
   background-color: #3498db;
   color: white;
@@ -123,3 +124,33 @@
   }
 }
 
+.cardInfoRow {
+  display: flex;
+  align-items: flex-start;
+  margin: 0.5rem 0;
+  gap: 8px;
+}
+
+.icon {
+  color: #3498db;
+  font-size: 1.2rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.cardAddress,
+.cardMaterials {
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .cardInfoRow {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .icon {
+    margin-top: 0;
+  }
+}
