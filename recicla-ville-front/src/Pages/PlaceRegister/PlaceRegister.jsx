@@ -1,5 +1,11 @@
-import { useState } from "react";
+
+
+import { useState, useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+
 import styles from "./PlaceRegister.module.css";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const PlaceRegister = () => {
   const [formData, setFormData] = useState({
@@ -22,8 +28,7 @@ const PlaceRegister = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Tipos de resíduos disponíveis
   const tiposResiduos = ["Vidro", "Metal", "Papel", "Plástico", "Orgânico"];
@@ -31,7 +36,7 @@ const PlaceRegister = () => {
   // Busca CEP na API
   const buscarCep = async () => {
     if (!formData.endereco.cep || formData.endereco.cep.length < 8) {
-      setError("CEP inválido");
+      toast.error("CEP inválido");
       return;
     }
 
@@ -41,7 +46,7 @@ const PlaceRegister = () => {
       const data = await response.json();
       
       if (data.erro) {
-        setError("CEP não encontrado");
+        toast.error("CEP não encontrado");
         return;
       }
 
@@ -60,9 +65,8 @@ const PlaceRegister = () => {
         }
       }));
       
-      setError("");
     } catch (err) {
-      setError("Erro ao buscar CEP");
+      toast.error("Erro ao buscar CEP");
       console.error(err);
     } finally {
       setLoading(false);
@@ -109,31 +113,33 @@ const PlaceRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
     
     try {
-      // Obtém usuarioid do localStorage (supondo que foi salvo após login)
+      // Obtém usuarioid do localStorage
       const usuarioId = localStorage.getItem("usuarioId");
       
       if (!usuarioId) {
-        setError("Usuário não autenticado");
+        toast.error("Usuário não autenticado");
         setLoading(false);
         return;
       }
 
       // Validações básicas
       if (!formData.nome) {
-        setError("Nome do local é obrigatório");
+        toast.error("Nome do local é obrigatório");
+        setLoading(false);
         return;
       }
       
       if (!formData.endereco.cep) {
-        setError("CEP é obrigatório");
+        toast.error("CEP é obrigatório");
+        setLoading(false);
         return;
       }
       
       if (formData.residuos.length === 0) {
-        setError("Selecione pelo menos um tipo de resíduo");
+        toast.error("Selecione pelo menos um tipo de resíduo");
+        setLoading(false);
         return;
       }
 
@@ -148,11 +154,25 @@ const PlaceRegister = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData.erro || "Erro ao cadastrar local");
+        toast.error(errorData.erro || "Erro ao cadastrar local");
+        setLoading(false);
         return;
       }
 
-      setSuccess(true);
+      // Sucesso no cadastro
+      setIsSubmitted(true);
+      toast.success('Local cadastrado com sucesso!', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      });
+
+      // Rola para o topo da página
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
       // Limpa o formulário após sucesso
       setFormData({
         nome: "",
@@ -173,31 +193,24 @@ const PlaceRegister = () => {
         residuos: []
       });
       
-      // Remove o sucesso após 3 segundos
-      setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
-      setError("Erro na conexão com o servidor");
+      toast.error("Erro na conexão com o servidor");
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Efeito para rolar para o topo quando o componente é montado
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className={styles.container}>
+      <ToastContainer />
+      
       <h1 className={styles.title}>Cadastro de Local de Coleta</h1>
-      
-      {success && (
-        <div className={styles.successMessage}>
-          Local cadastrado com sucesso!
-        </div>
-      )}
-      
-      {error && (
-        <div className={styles.errorMessage}>
-          {error}
-        </div>
-      )}
       
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
@@ -209,6 +222,7 @@ const PlaceRegister = () => {
             value={formData.nome}
             onChange={handleChange}
             required
+            disabled={isSubmitted}
           />
         </div>
         
@@ -220,6 +234,7 @@ const PlaceRegister = () => {
             value={formData.descricao}
             onChange={handleChange}
             rows="4"
+            disabled={isSubmitted}
           />
         </div>
         
@@ -238,6 +253,7 @@ const PlaceRegister = () => {
                 maxLength={9}
                 onBlur={buscarCep}
                 required
+                disabled={isSubmitted}
               />
             </div>
             
@@ -245,7 +261,7 @@ const PlaceRegister = () => {
               type="button" 
               onClick={buscarCep}
               className={styles.cepButton}
-              disabled={loading}
+              disabled={loading || isSubmitted}
             >
               {loading ? "Buscando..." : "Buscar CEP"}
             </button>
@@ -260,6 +276,7 @@ const PlaceRegister = () => {
               value={formData.endereco.logradouro}
               onChange={handleChange}
               readOnly
+              disabled={isSubmitted}
             />
           </div>
           
@@ -272,6 +289,7 @@ const PlaceRegister = () => {
                 name="endereco.numero"
                 value={formData.endereco.numero}
                 onChange={handleChange}
+                disabled={isSubmitted}
               />
             </div>
             
@@ -283,6 +301,7 @@ const PlaceRegister = () => {
                 name="endereco.complemento"
                 value={formData.endereco.complemento}
                 onChange={handleChange}
+                disabled={isSubmitted}
               />
             </div>
           </div>
@@ -296,6 +315,7 @@ const PlaceRegister = () => {
               value={formData.endereco.bairro}
               onChange={handleChange}
               readOnly
+              disabled={isSubmitted}
             />
           </div>
           
@@ -309,6 +329,7 @@ const PlaceRegister = () => {
                 value={formData.endereco.localidade}
                 onChange={handleChange}
                 readOnly
+                disabled={isSubmitted}
               />
             </div>
             
@@ -322,6 +343,7 @@ const PlaceRegister = () => {
                 onChange={handleChange}
                 readOnly
                 style={{ width: "50px" }}
+                disabled={isSubmitted}
               />
             </div>
           </div>
@@ -345,6 +367,7 @@ const PlaceRegister = () => {
                   type="checkbox"
                   checked={formData.residuos.includes(tipo)}
                   onChange={() => handleResiduosChange(tipo)}
+                  disabled={isSubmitted}
                 />
                 {tipo}
               </label>
@@ -356,7 +379,7 @@ const PlaceRegister = () => {
           <button 
             type="submit" 
             className={styles.submitButton}
-            disabled={loading}
+            disabled={loading || isSubmitted}
           >
             {loading ? "Cadastrando..." : "Cadastrar Local"}
           </button>
