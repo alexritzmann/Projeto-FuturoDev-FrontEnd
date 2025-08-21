@@ -2,6 +2,7 @@
 
 import styles from './CardUF.module.css';
 
+
 const CardUF = ({ uf, quantidade }) => {
   return (
     <div className={styles.card}>

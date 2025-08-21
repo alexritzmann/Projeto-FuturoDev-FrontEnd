@@ -2,6 +2,7 @@
 
 import styles from "./AuthLayout.module.css";
 
+
 const AuthLayout = ({ title, children, image }) => {
   return (
     <div className={styles.loginContainer}>
@@ -21,3 +22,4 @@ const AuthLayout = ({ title, children, image }) => {
 };
 
 export default AuthLayout;
+

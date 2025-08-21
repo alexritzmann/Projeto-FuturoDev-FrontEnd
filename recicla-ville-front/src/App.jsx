@@ -9,7 +9,6 @@ import PlaceRegister from './Pages/PlaceRegister/PlaceRegister'
 import Places from './Pages/Places/Places'
 import Dashboard from './Pages/Dashboard/Dashboard'
 
-
 import './App.css'
 
 
@@ -38,3 +37,4 @@ function App() {
 }
 
 export default App
+
