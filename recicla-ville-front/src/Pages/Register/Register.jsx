@@ -1,11 +1,14 @@
+
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
 import styles from "../../components/AuthLayout/AuthLayout.module.css";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +18,7 @@ const Register = () => {
     birthdate: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,21 +26,16 @@ const Register = () => {
   const navigate = useNavigate();
   const [passwordMatch, setPasswordMatch] = useState(true);
 
-
   const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prev) => {
-    const newData = { ...prev, [name]: value };
-    
-    // Verifica se as senhas coincidem em tempo real
-    if (name === "password" || name === "confirmPassword") {
-      setPasswordMatch(newData.password === newData.confirmPassword);
-    }
-    
-    return newData;
-  });
-};
-
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      const newData = { ...prev, [name]: value };
+      if (name === "password" || name === "confirmPassword") {
+        setPasswordMatch(newData.password === newData.confirmPassword);
+      }
+      return newData;
+    });
+  };
 
   const formatCPF = (e) => {
     let value = e.target.value.replace(/\D/g, "");
@@ -88,7 +86,7 @@ const Register = () => {
       "birthdate",
       "email",
       "password",
-      "confirmPassword"
+      "confirmPassword",
     ];
 
     if (requiredFields.some((field) => !formData[field])) {
@@ -123,8 +121,8 @@ const Register = () => {
       return;
     }
 
-    const ageDiffMs = today - birthDate;
-    const ageDate = new Date(ageDiffMs); // milissegundos desde 1970
+    const ageDif = today - birthDate;
+    const ageDate = new Date(ageDif);
     const age = Math.abs(ageDate.getUTCFullYear() - 1970);
 
     if (age < 12) {
@@ -149,7 +147,7 @@ const Register = () => {
         body: JSON.stringify({
           nome: formData.name,
           sexo: formData.gender,
-          cpf: formData.cpf.replace(/\D/g, ""), 
+          cpf: formData.cpf.replace(/\D/g, ""),
           nascimento: formData.birthdate,
           email: formData.email,
           senha: formData.password,
@@ -162,7 +160,6 @@ const Register = () => {
         throw new Error(data.erro || "Erro ao cadastrar usuário");
       }
 
-      // Cadastro bem-sucedido - mostra toast e redireciona imediatamente
       toast.success(
         "Cadastro realizado com sucesso! Redirecionando para login...",
         {
@@ -175,10 +172,9 @@ const Register = () => {
         }
       );
 
-      // Redireciona após um pequeno delay para o toast aparecer
       setTimeout(() => {
         navigate("/login");
-      }, 1000);
+      }, 2500);
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
@@ -246,7 +242,9 @@ const Register = () => {
         <label htmlFor="birthdate" className={styles.label}>
           Data de Nascimento: *
         </label>
-        <p className={styles.ageInfo}>É necessário ter pelo menos 12 anos para se cadastrar</p>
+        <p className={styles.ageInfo}>
+          É necessário ter pelo menos 12 anos para se cadastrar
+        </p>
         <input
           type="date"
           id="birthdate"
@@ -291,7 +289,6 @@ const Register = () => {
         />
       </div>
 
-      {/* Novo campo de confirmação de senha */}
       <div className={styles.inputGroup}>
         <label htmlFor="confirmPassword" className={styles.label}>
           Confirmar Senha: *
@@ -303,7 +300,9 @@ const Register = () => {
           name="confirmPassword"
           value={formData.confirmPassword}
           onChange={handleChange}
-          className={`${styles.input} ${!passwordMatch && formData.confirmPassword ? styles.inputError : ''}`}
+          className={`${styles.input} ${
+            !passwordMatch && formData.confirmPassword ? styles.inputError : ""
+          }`}
           disabled={isLoading || isSubmitted}
         />
       </div>
@@ -312,7 +311,9 @@ const Register = () => {
 
       <button
         type="submit"
-        className={`${styles.button} ${(isLoading || isSubmitted) ? styles.buttonDisabled : ""}`}
+        className={`${styles.button} ${
+          isLoading || isSubmitted ? styles.buttonDisabled : ""
+        }`}
         disabled={isLoading || isSubmitted}
         onClick={handleSubmit}
       >
@@ -329,4 +330,3 @@ const Register = () => {
 };
 
 export default Register;
-
