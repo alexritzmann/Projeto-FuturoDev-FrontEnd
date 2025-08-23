@@ -72,7 +72,6 @@ const Login = () => {
   return (
     
     <AuthLayout title="Login" image="/src/assets/imgs/login2.png">
-      {/* Adicione a frase de boas-vindas aqui */}
       <p className={styles.welcomeMessage}>Bem-vindo à ReciclaVille</p>
       
       <div className={styles.inputGroup}>

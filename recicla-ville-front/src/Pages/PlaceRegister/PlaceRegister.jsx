@@ -216,7 +216,7 @@ const PlaceRegister = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="descricao">Descrição</label>
+          <label htmlFor="descricao">Descrição*</label>
           <textarea
             id="descricao"
             name="descricao"

@@ -3,7 +3,7 @@
 .loginContainer {
   display: flex;
   min-height: 100vh;
-  background-color: #f0f2f5;
+  background-color: #f0f5f1;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -12,8 +12,8 @@
 .loginCard {
   display: flex;
   width: 90%;
-  max-width: 1000px;
-  min-height: 600px;
+  max-width: 900px;
+  min-height: 500px;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   overflow: hidden;
@@ -48,7 +48,7 @@
 
 .formContainer {
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 .form {
