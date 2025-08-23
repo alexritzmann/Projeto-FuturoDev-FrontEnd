@@ -1,5 +1,11 @@
 # ♻️ Recicla Ville - FrontEnd
 
+![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
+![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-4.0-646CFF?logo=vite&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-Repo-181717?logo=github)
+![License](https://img.shields.io/badge/Licença-MIT-green)
+
 ## 📝 Descrição do Projeto
 O **Recicla Ville** é uma plataforma **Front-End** desenvolvida em **React** para o gerenciamento de resíduos recicláveis.  
 O objetivo é **facilitar o acesso a pontos de coleta**, permitindo que os usuários:
