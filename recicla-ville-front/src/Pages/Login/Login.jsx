@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
 import styles from "../../components/AuthLayout/AuthLayout.module.css";
+import loginImage from './assets/imgs/login2.png';
 
 
 const Login = () => {
@@ -71,7 +72,7 @@ const Login = () => {
 
   return (
     
-    <AuthLayout title="Login" image="/src/assets/imgs/login2.png">
+    <AuthLayout title="Login" image={loginImage}>
       {/* Adicione a frase de boas-vindas aqui */}
       <p className={styles.welcomeMessage}>Bem-vindo à ReciclaVille</p>
       
