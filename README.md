@@ -1,118 +1,89 @@
-ReciclaVille - Frontend
-📋 Introdução
-O ReciclaVille é uma plataforma inovadora que facilita o gerenciamento de resíduos e o acesso a pontos de coleta de materiais recicláveis. Esta aplicação web permite que usuários cadastrem novos pontos de coleta, visualizem pontos existentes em um mapa interativo, gerenciem seus locais de coleta e contribuam para um meio ambiente mais sustentável.
+# ♻️ Recicla Ville - FrontEnd
 
-🎯 Problema que resolve
-O ReciclaVille aborda a dificuldade de encontrar e gerenciar pontos de coleta de materiais recicláveis, promovendo a conscientização ambiental e facilitando o descarte correto de resíduos. A plataforma conecta pessoas que desejam reciclar com locais adequados para isso, incentivando práticas sustentáveis.
+## 📝 Descrição do Projeto
+O **Recicla Ville** é uma plataforma **Front-End** desenvolvida em **React** para o gerenciamento de resíduos recicláveis.  
+O objetivo é **facilitar o acesso a pontos de coleta**, permitindo que os usuários:
 
-🛠️ Técnicas e tecnologias utilizadas
-Principais tecnologias:
-React - Biblioteca JavaScript para construção de interfaces
+- Cadastrem novos locais de coleta  
+- Visualizem pontos existentes em um **mapa interativo**  
+- Listem seus próprios pontos de coleta  
+- Consultem os **materiais aceitos** em cada local  
 
-React Router DOM - Roteamento para aplicação single-page
+Este projeto é a **primeira versão (MVP - Minimum Viable Product)** da aplicação, construída com foco em **usabilidade** e **experiência do usuário**.
 
-React Leaflet - Componentes para mapas interativos
+---
 
-Material-UI - Componentes de UI e ícones
+## 🌟 Funcionalidades Principais
+- 🔐 **Autenticação de Usuário**: Telas de Login e Cadastro com validações (email, senha, CPF e data de nascimento).  
+- 🗺️ **Dashboard**: Exibe um mapa com os pontos de coleta e cards com a quantidade de pontos por estado.  
+- 🏷️ **Cadastro de Pontos de Coleta**: Formulário com busca automática de endereço e coordenadas via API de CEP.  
+- 📋 **Listagem de Pontos**: Tela para visualizar e deletar pontos cadastrados pelo usuário.  
+- 📌 **Navegação Dinâmica**: Menu que exibe as opções de Dashboard e Locais de Coleta após o login.  
 
-React Toastify - Notificações toast
+---
 
-CSS Modules - Estilização modularizada
+## 🚀 Tecnologias e Ferramentas
 
-Funcionalidades implementadas:
-Autenticação de usuários (login e cadastro)
+### 🔧 Front-end
+- **React** → Biblioteca para construção da interface do usuário  
+- **Vite** → Ferramenta de build rápida  
+- **React Router DOM** → Gerenciamento de rotas e navegação  
+- **React Leaflet** → Mapa interativo  
+- **React Toastify** → Notificações para feedback  
 
-Cadastro e gerenciamento de pontos de coleta
+### 📂 Versionamento
+- **Git & GitHub** → Fluxo de branches para cada funcionalidade  
 
-Integração com API de CEP para preenchimento automático de endereços
+### ☁️ Deploy
+- **Vercel** ou **Netlify** → Hospedagem e deploy contínuo  
 
-Mapa interativo com localização de todos os pontos de coleta
+### 🔌 Integrações (APIs)
+- **api_coletas** → API local para usuários e pontos de coleta  
+- **API de CEP** → Busca de endereço e coordenadas  
 
-Dashboard com estatísticas de pontos por estado
+---
 
-Design responsivo para diferentes tamanhos de tela
+## ⚙️ Como Executar o Projeto
 
-Validações de formulários no client-side
+### ✅ Pré-requisitos
+- [Node.js (LTS)](https://nodejs.org/)  
+- [npm](https://www.npmjs.com/)  
+- API do projeto **api_coletas** em execução  
 
-🚀 Como executar
-Pré-requisitos:
-Node.js (versão 16 ou superior)
+### ▶️ Passos
 
-npm ou yarn
+1. **Clone o repositório**
+   ```bash
+   git clone https://github.com/seu-usuario/seu-projeto.git
+   cd seu-projeto
 
-API backend em execução (disponível em github.com/FuturoDEV-Joinville-V1/api_coletas)
+2. **Instale as dependências**
+   ```bash
+   npm install
+   
+3. **Inicie a API**
+   - Certifique-se de que a API do projeto (api_coletas) está rodando
+   - Normalmente, inicia-se com:
+     ```bash
+     npm run start
 
-Passos para execução:
-Clone o repositório:
+3. **Execute a aplicação**
+   ```bash
+   npm run dev
 
-bash
-git clone <url-do-repositorio>
-cd reciclaville-frontend
-Instale as dependências:
+A aplicação será iniciada em:
+👉 http://localhost:5173
 
-bash
-npm install
-Configure as variáveis de ambiente:
-Crie um arquivo .env na raiz do projeto com:
+📌 Status do Projeto
 
-text
-VITE_API_URL=http://localhost:3000
-Execute a aplicação:
+🚧 Em desenvolvimento (MVP) 🚧
 
-bash
-npm run dev
-Acesse a aplicação no navegador:
+🤝 Contribuições
 
-text
-http://localhost:5173
-📁 Estrutura do projeto
+Contribuições são bem-vindas!
+Siga o fluxo de fork → branch → commit → pull request.
 
+📄 Licença
 
-src/
-├── components/          # Componentes reutilizáveis
-│   ├── AuthLayout/     # Layout para páginas de autenticação
-│   ├── Card/           # Card para exibir pontos de coleta
-│   ├── CardUF/         # Card para estatísticas por estado
-│   └── Header/         # Cabeçalho com navegação
-├── Pages/              # Páginas da aplicação
-│   ├── Dashboard/      # Dashboard com mapa e estatísticas
-│   ├── Login/          # Página de login
-│   ├── Register/       # Página de cadastro de usuário
-│   ├── Places/         # Listagem de pontos de coleta
-│   └── PlaceRegister/  # Cadastro de novos pontos de coleta
-├── assets/             # Recursos estáticos (imagens, etc.)
-└── App.jsx             # Componente principal da aplicação
-
-
-🔧 Funcionalidades implementadas
-Autenticação
-Login com e-mail e senha
-
-Cadastro de novos usuários com validações completas
-
-Persistência de sessão com localStorage
-
-Pontos de Coleta
-Listagem dos pontos de coleta do usuário
-
-Cadastro de novos pontos com integração de CEP
-
-Exclusão de pontos de coleta
-
-Visualização em cards informativos
-
-Dashboard
-Mapa interativo com todos os pontos de coleta
-
-Estatísticas de pontos por estado
-
-Visualização de detalhes ao clicar nos marcadores do mapa
-
-Interface
-Design responsivo para mobile e desktop
-
-Menu de navegação adaptável
-
-Formulários com validações e feedback visual
-
-Notificações toast para ações do usuário
+Este projeto está sob a licença MIT.
+Sinta-se à vontade para usar e modificar conforme necessário.
