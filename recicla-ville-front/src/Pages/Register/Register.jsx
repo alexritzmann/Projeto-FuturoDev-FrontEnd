@@ -1,5 +1,7 @@
 
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -140,7 +142,7 @@ const Register = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/usuarios", {
+      const response = await fetch(`${API_BASE}/usuarios`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -308,7 +310,7 @@ const Register = () => {
         />
       </div>
 
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p className={styles.error}>{"Erro de comunicação: " + error + "."}</p>}
 
       <button
         type="submit"

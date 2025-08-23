@@ -1,4 +1,6 @@
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
 
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -41,7 +43,7 @@ const PlaceRegister = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/cep/${formData.endereco.cep}`
+        `${API_BASE}/cep/${formData.endereco.cep}`
       );
       const data = await response.json();
 
@@ -137,7 +139,7 @@ const PlaceRegister = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:3000/coletas", {
+      const response = await fetch(`${API_BASE}/coletas`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

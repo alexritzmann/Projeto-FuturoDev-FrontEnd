@@ -1,4 +1,6 @@
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -40,7 +42,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch(`${API_BASE}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

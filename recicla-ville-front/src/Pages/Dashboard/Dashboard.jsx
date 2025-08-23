@@ -1,4 +1,6 @@
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
 
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -33,7 +35,7 @@ const Dashboard = () => {
         const usuarioId = localStorage.getItem("usuarioId");
         if (!usuarioId) throw new Error("Usuário não autenticado");
 
-        const response = await fetch("http://localhost:3000/dashboard", {
+        const response = await fetch(`${API_BASE}/dashboard`, {
           headers: {
             usuarioid: usuarioId,
           },

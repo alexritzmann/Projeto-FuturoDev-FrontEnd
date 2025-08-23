@@ -1,5 +1,8 @@
 
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -21,7 +24,7 @@ const Places = () => {
           throw new Error("Usuário não autenticado");
         }
 
-        const response = await fetch("http://localhost:3000/coletas", {
+        const response = await fetch(`${API_BASE}/coletas`, {
           headers: {
             usuarioid: usuarioId,
           },
@@ -50,7 +53,7 @@ const Places = () => {
         throw new Error("Usuário não autenticado");
       }
 
-      const response = await fetch(`http://localhost:3000/coletas/${id}`, {
+      const response = await fetch(`${API_BASE}/coletas/${id}`, {
         method: "DELETE",
         headers: {
           usuarioid: usuarioId,
