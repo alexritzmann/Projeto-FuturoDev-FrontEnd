@@ -42,7 +42,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE}/login`, {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,17 +53,23 @@ const Login = () => {
         }),
       });
 
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        console.error('Resposta não-JSON:', text.substring(0, 100));
+        throw new Error("Erro de comunicação com o servidor");
+      }
+
+
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.erro || "Erro ao fazer login");
       }
 
-      // Armazena informações do usuário no localStorage
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
       localStorage.setItem("usuarioId", data.usuario.id);
 
-      // Redireciona para o dashboard
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
@@ -75,7 +81,6 @@ const Login = () => {
   return (
     
     <AuthLayout title="Login" image={loginImage}>
-      {/* Adicione a frase de boas-vindas aqui */}
       <p className={styles.welcomeMessage}>Bem-vindo à ReciclaVille</p>
       
       <div className={styles.inputGroup}>

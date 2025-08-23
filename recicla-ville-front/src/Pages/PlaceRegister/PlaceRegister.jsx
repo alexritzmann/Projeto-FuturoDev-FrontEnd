@@ -43,7 +43,7 @@ const PlaceRegister = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${API_BASE}/cep/${formData.endereco.cep}`
+        `http://localhost:3000/cep/${formData.endereco.cep}`
       );
       const data = await response.json();
 
@@ -139,7 +139,7 @@ const PlaceRegister = () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE}/coletas`, {
+      const response = await fetch("http://localhost:3000/coletas", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

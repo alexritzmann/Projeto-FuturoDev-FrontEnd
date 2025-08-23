@@ -35,7 +35,7 @@ const Dashboard = () => {
         const usuarioId = localStorage.getItem("usuarioId");
         if (!usuarioId) throw new Error("Usuário não autenticado");
 
-        const response = await fetch(`${API_BASE}/dashboard`, {
+        const response = await fetch("http://localhost:3000/dashboard", {
           headers: {
             usuarioid: usuarioId,
           },

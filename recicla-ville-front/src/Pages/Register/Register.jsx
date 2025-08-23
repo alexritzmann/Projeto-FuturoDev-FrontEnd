@@ -142,7 +142,7 @@ const Register = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE}/usuarios`, {
+      const response = await fetch("http://localhost:3000/usuarios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

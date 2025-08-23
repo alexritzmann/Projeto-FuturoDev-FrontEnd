@@ -24,7 +24,7 @@ const Places = () => {
           throw new Error("Usuário não autenticado");
         }
 
-        const response = await fetch(`${API_BASE}/coletas`, {
+        const response = await fetch("http://localhost:3000/coletas", {
           headers: {
             usuarioid: usuarioId,
           },
@@ -53,7 +53,7 @@ const Places = () => {
         throw new Error("Usuário não autenticado");
       }
 
-      const response = await fetch(`${API_BASE}/coletas/${id}`, {
+      const response = await fetch(`http://localhost:3000/coletas/${id}`, {
         method: "DELETE",
         headers: {
           usuarioid: usuarioId,
