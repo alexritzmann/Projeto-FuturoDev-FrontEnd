@@ -66,7 +66,8 @@ Acesse a aplicação no navegador:
 text
 http://localhost:5173
 📁 Estrutura do projeto
-text
+
+
 src/
 ├── components/          # Componentes reutilizáveis
 │   ├── AuthLayout/     # Layout para páginas de autenticação
@@ -81,6 +82,8 @@ src/
 │   └── PlaceRegister/  # Cadastro de novos pontos de coleta
 ├── assets/             # Recursos estáticos (imagens, etc.)
 └── App.jsx             # Componente principal da aplicação
+
+
 🔧 Funcionalidades implementadas
 Autenticação
 Login com e-mail e senha
