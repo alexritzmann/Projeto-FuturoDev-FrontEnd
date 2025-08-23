@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
 import styles from "../../components/AuthLayout/AuthLayout.module.css";
-import loginImage from './assets/imgs/login2.png';
+import loginImage from '../../assets/imgs/login2.png';
 
 
 const Login = () => {
