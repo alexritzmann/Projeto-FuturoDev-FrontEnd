@@ -8,6 +8,7 @@ import AuthLayout from "../../components/AuthLayout/AuthLayout";
 
 import styles from "../../components/AuthLayout/AuthLayout.module.css";
 import "react-toastify/dist/ReactToastify.css";
+import loginRegister from '../../assets/imgs/register.jpg';
 
 
 const Register = () => {
@@ -183,7 +184,7 @@ const Register = () => {
   };
 
   return (
-    <AuthLayout title="Criar Conta" image="/src/assets/imgs/register.jpg">
+    <AuthLayout title="Criar Conta" image={loginRegister}>
       <p className={styles.welcomeMessage}>Junte-se à ReciclaVille</p>
       <ToastContainer />
       <div className={styles.inputGroup}>
