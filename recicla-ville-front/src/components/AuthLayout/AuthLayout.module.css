@@ -177,6 +177,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 350px;
+    max-height: 500px;
   }
   
   .imageSide::before {
