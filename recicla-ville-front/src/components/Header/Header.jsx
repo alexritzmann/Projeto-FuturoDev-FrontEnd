@@ -7,6 +7,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
 import styles from "./Header.module.css";
+import loginImage from '../../assets/imgs/login2.png';
 
 
 const Header = () => {
@@ -45,7 +46,7 @@ const Header = () => {
             <div className={styles.displayLogo}>
               <img
                 className={styles.Logo}
-                src="/src/assets/imgs/login2.png"
+                src={loginImage}
                 alt="Logo"
               />
             </div>
