@@ -1,0 +1,20 @@
+services:
+  frontend: 
+    container_name: frontend
+    build: .
+    ports:
+      - 5175:5175
+  
+  backend: 
+    container_name: api
+    image: back
+    ports:
+       - 3000:3000 
+
+  db: 
+    container_name:  banco
+    image: postgress
+    environment:
+      - passowor=P@ssword
+    ports: 
+      - 5432:5432
