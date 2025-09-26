@@ -1,20 +1,20 @@
 services:
   frontend: 
-    container_name: frontend
+    container_name: frontend-coleta
     build: .
     ports:
-      - 5175:5175
+      - 5173:5173
   
   backend: 
     container_name: api
-    image: back
+    image: vitorlassen/back-coleta
     ports:
        - 3000:3000 
 
-  db: 
-    container_name:  banco
-    image: postgress
-    environment:
-      - passowor=P@ssword
-    ports: 
-      - 5432:5432
+  # db: 
+  #   container_name:  banco
+  #   image: postgress
+  #   environment:
+  #     - passowor=P@ssword
+  #   ports: 
+  #     - 5432:5432
