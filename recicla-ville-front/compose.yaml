@@ -11,10 +11,10 @@ services:
     ports:
        - 3000:3000 
 
-  # db: 
-  #   container_name:  banco
-  #   image: postgress
-  #   environment:
-  #     - passowor=P@ssword
-  #   ports: 
-  #     - 5432:5432
+  db: 
+    container_name:  banco
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=P@ssword
+    ports: 
+      - 5432:5432
